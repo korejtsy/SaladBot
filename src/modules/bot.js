@@ -5,6 +5,8 @@ module.exports = {
 
     const bot = new Telegraf(process.env.BOT_TOKEN, { username: 'SaladZtBot' });
 
+    const handlers = require('./handlers');
+
     bot.start((ctx) => {
       console.log('start');
       console.log('Started:', ctx.from.id);
@@ -35,9 +37,7 @@ module.exports = {
       ctx.reply('Cart');
     });
 
-    bot.command('add', ctx => {
-      ctx.reply('Add');
-    });
+    bot.command('add', handlers.add);
 
     bot.command('reset', ctx => {
       ctx.reply('Reset');
