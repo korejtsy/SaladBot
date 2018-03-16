@@ -5,7 +5,6 @@ Telegram Bot to automate orders creation and submission
 ---
 ## Commands
 
-
 | Name        | Explanation           | Current status  |
 | ------------- |:-------------:| -----:|
 | start      | starts recording session. After call shows current “order” user                                        |  | 
@@ -17,4 +16,3 @@ Telegram Bot to automate orders creation and submission
 | add_user   | register new user                                                                                      |  |
 | edit_user  | edit current user                                                                                      |  |
 | settings   | (if applicable) returns the bot's settings for this user and suggests commands to edit these settings  |  |
-
