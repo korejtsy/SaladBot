@@ -1,4 +1,5 @@
 const Telegraf = require('telegraf');
+const commandArgsMiddleware = require('../middlewares/commandArgs');
 
 module.exports = {
   start: () => {
@@ -6,6 +7,8 @@ module.exports = {
     const bot = new Telegraf(process.env.BOT_TOKEN, { username: 'SaladZtBot' });
 
     const handlers = require('./handlers');
+
+    bot.use(commandArgsMiddleware());
 
     bot.start((ctx) => {
       console.log('start');
@@ -37,7 +40,7 @@ module.exports = {
       ctx.reply('Cart');
     });
 
-    bot.command('add', handlers.add);
+    bot.command('/add', handlers.add);
 
     bot.command('reset', ctx => {
       ctx.reply('Reset');
