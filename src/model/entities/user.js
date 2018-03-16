@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize')
-const defaultFields = require('defaultFields')
+const defaultFields = require('./defaultFields')
 
 module.exports = connector =>
   connector.define('user', {
@@ -9,5 +9,5 @@ module.exports = connector =>
     email: Sequelize.STRING,
     phone: Sequelize.STRING,
     bonus_card_number: Sequelize.INTEGER
-  }
+  })
 

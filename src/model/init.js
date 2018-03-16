@@ -9,7 +9,6 @@ const {
     dialect
   }
 } = require('../config')
-const defineEntities = require('./entities')
 
 const connector = new Sequelize(database, username, password, {
   host,
@@ -23,7 +22,7 @@ const connector = new Sequelize(database, username, password, {
 })
 connector.query('SET NAMES utf8;')
 
-const definedEntities = defineEntities(connector)
+const definedEntities = require('./entities')(connector)
 
 module.exports = {
   sync: app => connector.sync(),

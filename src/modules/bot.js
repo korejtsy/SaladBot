@@ -1,9 +1,10 @@
 const Telegraf = require('telegraf');
+const config = require('../config');
 
 module.exports = {
   start: () => {
 
-    const bot = new Telegraf(process.env.BOT_TOKEN, { username: 'SaladZtBot' });
+    const bot = new Telegraf(config.bot.token, { username: config.bot.username });
 
     bot.start((ctx) => {
       console.log('start');

@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize')
+const defaultFields = require('./defaultFields')
 
 module.exports = connector =>
   connector.define('order', {
