@@ -2,6 +2,10 @@
   "name": "SaladBot",
   "version": "0.0.1",
   "description": "Telegram Bot to automate orders creation and submission",
+  "scripts": {
+    "bot": "BOT_TOKEN=556617881:AAGSL2I3yS58XkJY1FUTuDo9eQrJJqoX3cA node index",
+    "bot_test": "BOT_TOKEN=556617881:AAGSL2I3yS58XkJY1FUTuDo9eQrJJqoX3cA node test"
+  },
   "dependencies": {
     "lodash": "^4.17.5",
     "puppeteer": "^1.2.0",
