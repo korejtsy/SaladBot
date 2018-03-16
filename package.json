@@ -1,0 +1,10 @@
+{
+  "name": "SaladBot",
+  "version": "0.0.1",
+  "description": "Telegram Bot to automate orders creation and submission",
+  "dependencies": {
+    "lodash": "^4.17.5",
+    "puppeteer": "^1.2.0",
+    "telegraf": "^3.19.0"
+  }
+}
