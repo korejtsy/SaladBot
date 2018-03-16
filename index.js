@@ -22,7 +22,6 @@ bot.command('help', ctx => {
   ctx.reply(`Help: Commands list`);
 });
 
-
 bot.command('start', ctx => {
   console.log('start');
   ctx.reply('Start');
