@@ -7,7 +7,7 @@ const {
 const editUser = require('./editUser')
 const editSettings = require('./editSettings')
 
-module.exports = async ({ url, userId, chatId }) => {
+module.exports = async ({ product, userId, chatId }) => {
   const date = moment().startOf('day')
   const user = await editUser(userId, { chatId })
   const chat = await editSettings(chatId)
@@ -22,8 +22,8 @@ module.exports = async ({ url, userId, chatId }) => {
     .spread((order) => order.get({ plain: true }))
 
   const fields = {
+    ...product,
     date,
-    url,
     orderId: order.id
   }
   const itemWhere = _.pick(fields, ['url', 'orderId'])
