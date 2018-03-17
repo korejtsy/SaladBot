@@ -1,7 +1,26 @@
+const filter = require('lodash/filter');
+const forEach = require('lodash/forEach');
+const getOrder = require('../store/getOrder');
+
 module.exports = async (ctx) => {
   const chatID = ctx.update.message.chat.id;
-  const userID = ctx.update.message.from.id;
+  const user = ctx.update.message.from;
 
-  ctx.reply('Cart for user');
+  const order = await getOrder(chatID);
+  console.log(order);
+  const items = filter(order.items, item => item.user.telegram_account_id == user.id);
+
+  console.log(ctx.update.message.from);
+  let md = `[@${user.first_name} ${user.last_name}](tg://user?id=${user.id}) *items*
+  
+`;
+
+  forEach(items, item => {
+    md += `${item.url} ${item.mod ? `(${item.mod})` : ''}`;
+  });
+
+  ctx.replyWithMarkdown(md);
+
+  // ctx.reply('Cart for user');
 }
 

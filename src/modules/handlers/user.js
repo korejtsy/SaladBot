@@ -3,7 +3,7 @@ const { User } = require('../../model');
 
 module.exports = async (ctx) => {
   const chatID = ctx.update.message.chat.id;
-  const userID = ctx.update.message.from.id;
+  const userTel = ctx.update.message.from;
 
   const text = ctx.message.text;
   if (text.startsWith('/')) {
@@ -32,9 +32,10 @@ module.exports = async (ctx) => {
       }
     }
   }
-  const user = await User.findOne({ where: { telegram_account_id: userID }});
+  const user = await User.findOne({ where: { telegram_account_id: userTel.id }});
   if (user) {
-  ctx.replyWithMarkdown(`
+  ctx.replyWithMarkdown(`[@${userTel.first_name} ${userTel.last_name}](tg://user?id=${userTel.id})
+  
 *name:* ${user.name}
 *email:* ${user.email}
 *phone:* ${user.phone}
