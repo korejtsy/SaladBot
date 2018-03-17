@@ -26,15 +26,12 @@ module.exports = async (ctx) => {
       const product = await pageParse(url);
       const orderItem = await addItem({ product, userId, chatId });
 
-
-      console.log(orderItem.id);
-
       if (product.mods_available.length) {
         const menu = Telegraf.Extra
           .markdown()
           .markup((m) => m.inlineKeyboard(
             product.mods_available.map(item =>
-              m.callbackButton(item, `${orderItem.id}-${item}-${orderItem.price}`)
+              m.callbackButton(item, `${orderItem.id}-${item}-${ctx.update.message.from.id}`)
             )
           ));
 

@@ -4,8 +4,7 @@ const editItem = require('../store/editItem');
 
 module.exports = async (ctx) => {
   try {
-    const [id, mod] = ctx.callbackQuery.data.split('-');
-    console.log('price', ctx.callbackQuery.data);
+    const [id, mod, userId] = ctx.callbackQuery.data.split('-');
     await editItem(id, { mod });
 
     ctx.reply(`Mod "${mod}" has been set`);
