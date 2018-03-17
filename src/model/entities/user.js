@@ -6,7 +6,12 @@ module.exports = connector =>
     ...defaultFields,
     telegram_account_id: Sequelize.STRING,
     name: Sequelize.STRING,
-    email: Sequelize.STRING,
+    email: {
+      type: Sequelize.STRING,
+      validate: {
+        isEmail: true
+      }
+    },
     phone: Sequelize.STRING,
     bonus_card_number: Sequelize.INTEGER
   })
