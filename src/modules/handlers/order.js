@@ -13,10 +13,6 @@ module.exports = async (ctx) => {
   const order = await getOrder(chatID);
   const user = await getRandomUser(order);
 
-  if (!valitaion(ctx, user, order.chat)) {
-    return
-  }
-
   if (order) {
     await editOrder(order.id, { status: 'ordered' });
   } else {
@@ -24,7 +20,16 @@ module.exports = async (ctx) => {
     return;
   }
 
+  if (!valitaion(ctx, user, order.chat)) {
+    return;
+  }
+
   const result = await makeOrder(order, user);
+  if (!result) {
+    ctx.reply('some errror');
+    return;
+  }
+
   const discount =
     order.chat.budget ? (order.chat.budget / Object.keys(result).length).toFixed() : 0;
 

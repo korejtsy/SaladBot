@@ -35,15 +35,21 @@ const addProductsToCart = async (page, order) => {
 
     page.setViewport({ width: 1920, height: 4200 });
 
-    const price = parseInt(await page.evaluate(() =>
-      document.querySelector('.main_detail_price .price').innerHTML
-    ), 10);
+    if (item.mod) {
+      const selector = `.bx_scu ul li:not(.bx_missing) i[title="${item.mod}"]`;
+      await page.click(selector);
 
-    console.log('price', price);
+    }
+
+    const price = parseInt(await page.evaluate(() => {
+      const node = document.querySelector('.offers_hide:not([style="display: none;"]) .price');
+      return node ? node.innerHTML : 0;
+    }), 10);
 
     result[item.user.name] = (result[item.user.name] || 0) + price;
 
-    await page.click('.detail_buy_button.show_basket_popup.inline');
+    // await page.click('.detail_buy_button.show_basket_popup.inline');
+    await page.click('.offers_hide:not([style="display: none;"]) .add_to_basket');
 
     console.log('Screenshot', `user_${item.user.id}-${i}.png`);
     // await page.screenshot({ path: `screenshots/${orders[i].user}-${j}.png` });
@@ -87,7 +93,7 @@ const fillForm = async (page, result, user, chat) => {
   try {
     await page.screenshot({ path: `screenshots/form.png` });
   } catch (e) {
-    console.log('Screenshot form not found')
+    console.log('Screenshot form not found');
   }
 };
 
@@ -100,20 +106,16 @@ module.exports = async (order, user) => {
   const page = await browser.newPage();
 
   // console.log(order);
-  try {
-    const result = await addProductsToCart(page, order);
-    const chat = order.chat;
+  const result = await addProductsToCart(page, order);
+  const chat = order.chat;
 
-    await createCart(page);
-    await fillForm(page, result, user, chat);
-    if (process.env.NODE_ENV === 'production') {
-      await doOrder(page);
-    }
-
-    await browser.close();
-
-    return result;
-  } catch (e) {
-    console.log('Order is not finished');
+  await createCart(page);
+  await fillForm(page, result, user, chat);
+  if (process.env.NODE_ENV === 'production') {
+    await doOrder(page);
   }
+
+  await browser.close();
+
+  return result;
 };
