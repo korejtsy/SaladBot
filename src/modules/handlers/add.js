@@ -4,6 +4,8 @@ const addItem = require('../store/addItem');
 
 module.exports = async (ctx) => {
   const args = ctx.state.command.args;
+  const userId = ctx.update.message.from.id;
+  const chatId = ctx.update.message.chat.id;
 
   if (args && args.length) {
     const url = args[0];
@@ -23,7 +25,7 @@ module.exports = async (ctx) => {
       return;
     }
 
-    addItem({ url })
+    addItem({ url, userId, chatId })
 
     ctx.reply(`Product "${ctx.session.product.product_name}" has been added`);
     return;

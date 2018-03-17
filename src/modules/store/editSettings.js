@@ -2,7 +2,7 @@ const _ = require('lodash')
 const moment = require('moment')
 const { Chat } = require('../../model')
 
-module.exports = async (chatId, fields) => {
+module.exports = async (chatId, fields = {}) => {
   const where = { telegram_chat_id: chatId }
 
   return Chat
@@ -11,6 +11,8 @@ module.exports = async (chatId, fields) => {
       if (!created) {
         Chat.update(fields, { where })
       }
+
+      return chat.get({ plain: true })
     })
 }
 

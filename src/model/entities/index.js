@@ -6,8 +6,9 @@ module.exports = connector => {
     Order: require('./order')(connector),
   }
 
-  models.User.belongsTo(models.Chat)
+  models.Order.belongsTo(models.Chat)
   models.Order.hasMany(models.Item)
+  models.Item.belongsTo(models.User)
 
   return models
 }
