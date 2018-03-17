@@ -11,7 +11,7 @@ module.exports = {
       alter: true
     })
 
-    const bot = new Telegraf(config.bot.token, { username: config.bot.name });
+    const bot = new Telegraf(config.bot.token, { username: config.bot.username });
 
     const handlers = require('./handlers');
 

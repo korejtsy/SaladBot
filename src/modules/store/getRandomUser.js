@@ -2,10 +2,8 @@ const _ = require('lodash')
 const moment = require('moment')
 const { User } = require('../../model')
 
-module.exports = async (userId, fields = {}) => {
-  const users = await User
-    .findAll({ defaults: fields })
-    .then(users => users.map(user => user.get({ plain: true })));
+module.exports = async (order) => {
+  const users = _.map(_.get(order, 'items', []), 'user');
 
   // console.log('users', users);
   const randomIndex = Math.floor(Math.random() * users.length);
@@ -13,4 +11,3 @@ module.exports = async (userId, fields = {}) => {
 
   return users[randomIndex];
 }
-

@@ -10,34 +10,29 @@ module.exports = async (ctx) => {
   ctx.reply('Ordering...');
 
   const order = await getOrder(chatID);
-  const user = await getRandomUser();
+  const user = await getRandomUser(order);
 
   console.log('user', user);
 
   if (order) {
-    await editOrder(order.id, { status: 'ordered' })
+    await editOrder(order.id, { status: 'ordered' });
   } else {
     ctx.reply('All orders are finished');
-    return
+    return;
   }
 
   const result = await makeOrder(order, user);
   const discount =
     order.chat.budget ? (order.chat.budget / Object.keys(result).length).toFixed() : 0;
 
-  let md = '';
+  let md = `*${user.name}* is lucky!
+  
+`;
 
   forEach(result, (price, name) => {
     md += `*${name}*:\t${price} - ${discount} = ${price - discount} грн.\n`;
   });
 
   ctx.replyWithMarkdown(md);
-
-  try {
-    ctx.replyWithPhoto({
-      //source: fs.createReadStream('./screenshots/cart.png')
-    });
-  } catch(e) {
-    ctx.reply('Screenshot is not found');
-  }
+  ctx.replyWithPhoto({ source: fs.createReadStream('./screenshots/cart.png') });
 };
