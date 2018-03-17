@@ -4,6 +4,7 @@ const forEach = require('lodash/forEach');
 const getOrder = require('../store/getOrder');
 const getRandomUser = require('../store/getRandomUser');
 const editOrder = require('../store/editOrder');
+const valitaion = require('../validations/order');
 
 module.exports = async (ctx) => {
   const chatID = ctx.update.message.chat.id;
@@ -12,7 +13,9 @@ module.exports = async (ctx) => {
   const order = await getOrder(chatID);
   const user = await getRandomUser(order);
 
-  console.log('user', user);
+  if (!valitaion(ctx, user, order.chat)) {
+    return
+  }
 
   if (order) {
     await editOrder(order.id, { status: 'ordered' });
