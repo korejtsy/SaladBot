@@ -89,7 +89,11 @@ const fillForm = async (page, result, user, chat) => {
   } catch (e) {
     console.log('Screenshot form not found')
   }
-}
+};
+
+const doOrder = async (page) => {
+  await page.click('.checkout.button');
+};
 
 module.exports = async (order, user) => {
   const browser = await puppeteer.launch();
@@ -102,11 +106,14 @@ module.exports = async (order, user) => {
 
     await createCart(page);
     await fillForm(page, result, user, chat);
+    if (process.env.NODE_ENV === 'production') {
+      await doOrder(page);
+    }
 
     await browser.close();
 
     return result;
   } catch (e) {
-    console.log('Order is not finished')
+    console.log('Order is not finished');
   }
 };
