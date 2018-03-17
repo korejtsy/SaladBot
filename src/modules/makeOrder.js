@@ -56,9 +56,17 @@ const addProductsToCart = async (page, order) => {
 const createCart = async (page) => {
   await page.goto(cartURL);
   // await page.screenshot({ path: `screenshots/cart.png` });
-  await screenshotDOMElement(page, '.basket_items_block', 'screenshots/cart.png', 10);
+  try {
+    await screenshotDOMElement(page, '.basket_items_block', 'screenshots/cart.png', 10);
+  } catch (e) {
+    console.log('Screenshot cart not found')
+  }
   await page.goto('https://salad.com.ua/personal/order/make/');
-  await page.screenshot({ path: `screenshots/order_form.png` });
+  try {
+    await page.screenshot({ path: `screenshots/order_form.png` });
+  } catch (e) {
+    console.log('Screenshot order_form not found')
+  }
   // Fields
 };
 
@@ -76,7 +84,11 @@ const fillForm = async (page, result, user, chat) => {
     document.querySelector('#ORDER_PROP_41').value = chat.floor || '';
   }, result, user, chat);
 
-  await page.screenshot({ path: `screenshots/form.png` });
+  try {
+    await page.screenshot({ path: `screenshots/form.png` });
+  } catch (e) {
+    console.log('Screenshot form not found')
+  }
 }
 
 module.exports = async (order, user) => {
@@ -84,15 +96,17 @@ module.exports = async (order, user) => {
   const page = await browser.newPage();
 
   // console.log(order);
-  const result = await addProductsToCart(page, order);
-  // console.log('RESULT', result);
+  try {
+    const result = await addProductsToCart(page, order);
+    const chat = order.chat;
 
-  const chat = order.chat;
+    await createCart(page);
+    await fillForm(page, result, user, chat);
 
-  await createCart(page);
-  await fillForm(page, result, user, chat);
+    await browser.close();
 
-  await browser.close();
-
-  return result;
+    return result;
+  } catch (e) {
+    console.log('Order is not finished')
+  }
 };

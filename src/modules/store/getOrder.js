@@ -7,11 +7,11 @@ const {
   Chat
 } = require('../../model')
 
-module.exports = async chatId => {
+module.exports = async (chatId, { status = 'in_progress' } = {}) => {
   const date = moment().startOf('day')
   const where = {
     date,
-    status: 'in_progress'
+    status
   }
 
   return await Order

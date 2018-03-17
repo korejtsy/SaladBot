@@ -16,6 +16,9 @@ module.exports = async (ctx) => {
 
   if (order) {
     await editOrder(order.id, { status: 'ordered' })
+  } else {
+    ctx.reply('All orders are finished');
+    return
   }
 
   const result = await makeOrder(order, user);
@@ -29,5 +32,12 @@ module.exports = async (ctx) => {
   });
 
   ctx.replyWithMarkdown(md);
-  ctx.replyWithPhoto({ source: fs.createReadStream('./screenshots/cart.png')});
+
+  try {
+    ctx.replyWithPhoto({
+      //source: fs.createReadStream('./screenshots/cart.png')
+    });
+  } catch(e) {
+    ctx.reply('Screenshot is not found');
+  }
 };
