@@ -1,6 +1,26 @@
 const puppeteer = require('puppeteer');
 
 const cartURL = 'https://salad.com.ua/personal/cart/';
+
+async function screenshotDOMElement(page, selector, path, padding = 0) {
+  const rect = await page.evaluate(selector => {
+    const element = document.querySelector(selector);
+    const {x, y, width, height} = element.getBoundingClientRect();
+    return {left: x, top: y, width, height, id: element.id};
+  }, selector);
+
+  return await page.screenshot({
+    path,
+    clip: {
+      x: rect.left - padding,
+      y: rect.top - padding,
+      width: rect.width + padding * 2,
+      height: rect.height + padding * 2
+    }
+  });
+}
+
+
 const DATA = [
   {
     user_id: 1,
@@ -64,7 +84,8 @@ const addProductsToCart = async (page, orders) => {
 
 const createCart = async (page) => {
   await page.goto(cartURL);
-  await page.screenshot({ path: `screenshots/cart.png` });
+  // await page.screenshot({ path: `screenshots/cart.png` });
+  await screenshotDOMElement(page, '.basket_items_block', 'screenshots/cart.png', 10);
   await page.goto('https://salad.com.ua/personal/order/make/');
   await page.screenshot({ path: `screenshots/order_form.png` });
   // Fields

@@ -1,4 +1,5 @@
 const makeOrder = require('../makeOrder');
+const fs = require('fs');
 const forEach = require('lodash/forEach');
 
 const amount = 250;
@@ -15,4 +16,5 @@ module.exports = async (ctx) => {
   });
 
   ctx.replyWithMarkdown(md);
+  ctx.replyWithPhoto({ source: fs.createReadStream('./screenshots/cart.png')});
 };
