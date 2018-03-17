@@ -14,7 +14,9 @@ services:
      MYSQL_PASSWORD: bot
 
   bot:
-    image: node:9
+    build:
+      context: ./
+      dockerfile: Dockerfile
     container_name: bot
     command: >
       sh -c '
