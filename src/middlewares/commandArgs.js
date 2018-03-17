@@ -1,5 +1,5 @@
 const commandArgs = () => (ctx, next) => {
-  console.log(ctx.updateType, ctx.updateSubType);
+  //console.log(ctx.updateType, ctx.updateSubType);
   if (ctx.updateType === 'message') {
     const text = ctx.message.text.toLowerCase();
     if (text.startsWith('/')) {
