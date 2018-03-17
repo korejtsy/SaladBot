@@ -1,10 +1,10 @@
 const puppeteer = require('puppeteer');
 
-const parsePage = async (link) => {
+const parsePage = async (url) => {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
-  await page.goto(link);
+  await page.goto(url);
 
   const price = parseInt(await page.evaluate(() =>
     document.querySelector('.main_detail_price .price').innerHTML
@@ -21,13 +21,19 @@ const parsePage = async (link) => {
     return modsNodesArr.map(node => node.querySelector('i').getAttribute('title'));
   });
 
-  const mod = await page.evaluate(() =>
-    document.querySelector('.bx_scu ul li.bx_active i').getAttribute('title')
-  );
+  const mod = await page.evaluate(() => {
+    const node = document.querySelector('.bx_scu ul li.bx_active i');
+
+    if (node) {
+      return document.querySelector('.bx_scu ul li.bx_active i').getAttribute('title');
+    }
+    return null;
+  });
 
   await browser.close();
 
   return {
+    url,
     product_name: productName.replace(/[\n\t]+/g, ' ').trim().replace(/\s{2}/g, ''),
     price,
     mods_available: modsAvailable,

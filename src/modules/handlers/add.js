@@ -1,3 +1,4 @@
+const Telegraf = require('telegraf');
 const pageParse = require('../pageParse');
 
 module.exports = async (ctx) => {
@@ -7,9 +8,23 @@ module.exports = async (ctx) => {
 
   if (args && args.length) {
     const url = args[0];
-    const info = await pageParse(url);
+    ctx.session.product = await pageParse(url);
 
-    console.log(info);
+    if (ctx.session.product.mods_available) {
+      const menu = Telegraf.Extra
+        .markdown()
+        .markup((m) => m.inlineKeyboard(
+          ctx.session.product.mods_available.map(item =>
+            m.callbackButton(item, item)
+          )
+        ));
+
+      console.log('ctx.state.product', ctx.session.product);
+      ctx.reply('Please choose type:', menu).then((ctx) => {
+        // console.log('type', ctx);
+      });
+      return;
+    }
   }
 
   ctx.reply('Response from handler');
