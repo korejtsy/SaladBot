@@ -1,6 +1,7 @@
 const Telegraf = require('telegraf');
 const model = require('../model')
 const config = require('../config');
+const session = require('telegraf/session');
 const commandArgsMiddleware = require('../middlewares/commandArgs');
 
 module.exports = {
@@ -15,6 +16,7 @@ module.exports = {
     const handlers = require('./handlers');
 
     bot.use(commandArgsMiddleware());
+    bot.use(session());
 
     bot.start((ctx) => {
       console.log('start');
@@ -66,6 +68,13 @@ module.exports = {
 
     bot.command('settings', ctx => {
       ctx.reply('Settings');
+    });
+
+    bot.on('callback_query', (ctx) => {
+      console.log(ctx.session.product.url);
+      console.log(ctx.callbackQuery.data);
+      ctx.session.product.mod = ctx.callbackQuery.data;
+      ctx.reply(`Updated: ${JSON.stringify(ctx.session.product)}`);
     });
 
     bot.startPolling();

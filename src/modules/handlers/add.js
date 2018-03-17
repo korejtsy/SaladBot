@@ -1,41 +1,31 @@
-const _ = require('lodash')
-const moment = require('moment')
-const {
-  Order,
-  Item
-} = require('../../model')
+const Telegraf = require('telegraf');
+const pageParse = require('../pageParse');
 
 module.exports = async (ctx) => {
-  console.log('commands', ctx.state.command);
-  console.log('commands', ctx.state.args);
+  // console.log(ctx.update.message.entities);
+  console.log('args', ctx.state.command.args);
+  const args = ctx.state.command.args;
 
-  const args = _.get(ctx, 'state.command.args');
-  const date = moment().startOf('day')
-  const query = {
-    date,
-    status: 'in_progress'
+  if (args && args.length) {
+    const url = args[0];
+    ctx.session.product = await pageParse(url);
+
+    if (ctx.session.product.mods_available) {
+      const menu = Telegraf.Extra
+        .markdown()
+        .markup((m) => m.inlineKeyboard(
+          ctx.session.product.mods_available.map(item =>
+            m.callbackButton(item, item)
+          )
+        ));
+
+      console.log('ctx.state.product', ctx.session.product);
+      ctx.reply('Please choose type:', menu).then((ctx) => {
+        // console.log('type', ctx);
+      });
+      return;
+    }
   }
-  const url = _.get(args, '0')
 
-  const order = await Order
-    .findOrCreate({ where: query, defaults: query })
-    .spread((order) => order.get({ plain: true }))
-
-  const fields = {
-    date,
-    url,
-    orderId: order.id
-  }
-  const itemWhere = _.pick(fields, ['url', 'orderId'])
-  const item = await Item
-    .findOrCreate({ where: itemWhere, defaults: fields })
-    .spread((item, created) => {
-      if (!created) {
-        Order.update(fields, { where: { id: item.id } })
-      }
-
-      return item.get({ plain: true })
-    })
-
-  ctx.reply('Order accepted');
+  ctx.reply('Response from handler');
 }
