@@ -2,12 +2,17 @@ const makeOrder = require('../makeOrder');
 const fs = require('fs');
 const forEach = require('lodash/forEach');
 const getOrder = require('../store/getOrder');
+const editOrder = require('../store/editOrder');
 
 module.exports = async (ctx) => {
   const chatID = ctx.update.message.chat.id;
   ctx.reply('Ordering...');
 
   const order = await getOrder(chatID);
+
+  if (order) {
+    await editOrder(order.id, { status: 'ordered' })
+  }
 
   const result = await makeOrder(order);
   const discount =

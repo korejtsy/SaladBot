@@ -24,6 +24,6 @@ module.exports = async chatId => {
         model: Chat
       }]
     })
-    .then(order => order.get({ plain: true }))
+    .then(order => order && order.get({ plain: true }))
 }
 
