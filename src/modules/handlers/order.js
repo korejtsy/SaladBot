@@ -14,12 +14,11 @@ module.exports = async (ctx) => {
 
   console.log('user', user);
 
-  const result = await makeOrder(order, user);
   if (order) {
     await editOrder(order.id, { status: 'ordered' })
   }
 
-  const result = await makeOrder(order);
+  const result = await makeOrder(order, user);
   const discount =
     order.chat.budget ? (order.chat.budget / Object.keys(result).length).toFixed() : 0;
 
