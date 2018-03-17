@@ -10,7 +10,7 @@ module.exports = async (ctx) => {
     const url = args[0];
     ctx.session.product = await pageParse(url);
 
-    if (ctx.session.product.mods_available) {
+    if (ctx.session.product.mods_available.length) {
       const menu = Telegraf.Extra
         .markdown()
         .markup((m) => m.inlineKeyboard(
@@ -20,12 +20,13 @@ module.exports = async (ctx) => {
         ));
 
       console.log('ctx.state.product', ctx.session.product);
-      ctx.reply('Please choose type:', menu).then((ctx) => {
-        // console.log('type', ctx);
-      });
+      ctx.reply('Please choose type:', menu);
       return;
     }
+
+    ctx.reply(`Product "${ctx.session.product.product_name}" has been added`);
+    return;
   }
 
-  ctx.reply('Response from handler');
+  ctx.reply(`Link not provided`);
 }
