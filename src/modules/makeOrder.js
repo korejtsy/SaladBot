@@ -5,8 +5,8 @@ const cartURL = 'https://salad.com.ua/personal/cart/';
 async function screenshotDOMElement(page, selector, path, padding = 0) {
   const rect = await page.evaluate(selector => {
     const element = document.querySelector(selector);
-    const {x, y, width, height} = element.getBoundingClientRect();
-    return {left: x, top: y, width, height, id: element.id};
+    const { x, y, width, height } = element.getBoundingClientRect();
+    return { left: x, top: y, width, height, id: element.id };
   }, selector);
 
   return await page.screenshot({
@@ -21,61 +21,28 @@ async function screenshotDOMElement(page, selector, path, padding = 0) {
 }
 
 
-const DATA = [
-  {
-    user_id: 1,
-    name: 'Slava',
-    items: [
-      {
-        url: 'https://salad.com.ua/catalog/nabory/set-1/',
-        mod: null,
-      },
-      {
-        url: 'https://salad.com.ua/catalog/garniry/kus-kus-s-ovoshchami/',
-        mod: null,
-      },
-    ],
-  },
-  {
-    user_id: 2,
-    name: 'Slon',
-    items: [
-      {
-        url: 'https://salad.com.ua/catalog/nabory/set-1/',
-        mod: null,
-      },
-      {
-        url: 'https://salad.com.ua/catalog/garniry/kus-kus-s-ovoshchami/',
-        mod: null,
-      },
-    ],
-  },
-];
-const addProductsToCart = async (page, orders) => {
+const addProductsToCart = async (page, order) => {
   const result = {};
 
-  for (let i in orders) {
-    const links = orders[i].items;
-    let sum = 0;
+  for (let i in order.items) {
+    const item = order.items[i];
+    console.log('Go to: ', item.url);
+    await page.goto(item.url);
 
-    for (let j = 0; j < links.length; j++) {
-      console.log('Go to: ', links[j].url);
-      await page.goto(links[j].url);
+    page.setViewport({ width: 1920, height: 4200 });
 
-      page.setViewport({ width: 1920, height: 4200 });
+    const price = parseInt(await page.evaluate(() =>
+      document.querySelector('.main_detail_price .price').innerHTML
+    ), 10);
 
-      const price = parseInt(await page.evaluate(() =>
-        document.querySelector('.main_detail_price .price').innerHTML
-      ));
-      sum += price;
+    console.log('price', price);
 
-      await page.click('.detail_buy_button.show_basket_popup.inline');
+    result[item.user.name] = (result[item.user.name] || 0) + price;
 
-      console.log('Screenshot', `${orders[i].user_id}-${j}.png`);
-      // await page.screenshot({ path: `screenshots/${orders[i].user}-${j}.png` });
-    }
+    await page.click('.detail_buy_button.show_basket_popup.inline');
 
-    result[orders[i].name] = sum;
+    console.log('Screenshot', `user_${item.user.id}-${i}.png`);
+    // await page.screenshot({ path: `screenshots/${orders[i].user}-${j}.png` });
   }
 
   console.log('sss', result);
@@ -108,11 +75,12 @@ const fillForm = async (page, result, user, chat) => {
   await page.screenshot({ path: `screenshots/form.png` });
 }
 
-module.exports = async (data = DATA) => {
+module.exports = async (order) => {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
-  const result = await addProductsToCart(page, data);
+  // console.log(order);
+  const result = await addProductsToCart(page, order);
   // console.log('RESULT', result);
 
   const user = {
@@ -122,11 +90,7 @@ module.exports = async (data = DATA) => {
     bonus_card_number: '03327',
   }
 
-  const chat = {
-    street: 'пл Победы 10, Империал',
-    house_number: 10,
-    floor: 3,
-  }
+  const chat = order.chat;
 
   await createCart(page);
   await fillForm(page, result, user, chat);

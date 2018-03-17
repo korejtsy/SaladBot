@@ -9,7 +9,7 @@ module.exports = async (ctx) => {
   const chatID = ctx.update.message.chat.id;
   ctx.reply('Ordering...');
 
-  const order = await getOrder(chatID)
+  const order = await getOrder(chatID);
 
   const result = await makeOrder(order);
   const discount = amount / Object.keys(result).length;
@@ -23,3 +23,4 @@ module.exports = async (ctx) => {
   ctx.replyWithMarkdown(md);
   ctx.replyWithPhoto({ source: fs.createReadStream('./screenshots/cart.png')});
 };
+
