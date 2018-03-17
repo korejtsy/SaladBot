@@ -58,7 +58,7 @@ module.exports = {
 
     bot.command('add_user', handlers.add_user);
 
-    bot.command('edit_user', handlers.edit_user);
+    bot.command('user', handlers.user);
 
     bot.command('settings', handlers.settings);
 
