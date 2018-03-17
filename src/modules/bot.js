@@ -1,7 +1,7 @@
 const Telegraf = require('telegraf');
 const model = require('../model')
 const config = require('../config');
-const session = require('telegraf/session');
+// const session = require('telegraf/session');
 const commandArgsMiddleware = require('../middlewares/commandArgs');
 
 module.exports = {
@@ -16,7 +16,7 @@ module.exports = {
     const handlers = require('./handlers');
 
     bot.use(commandArgsMiddleware());
-    bot.use(session());
+    // bot.use(session());
 
     bot.start((ctx) => {
       console.log('start');

@@ -8,6 +8,7 @@ module.exports = async (ctx) => {
   const text = ctx.message.text;
   if (text.startsWith('/')) {
     const match = text.match(/^\/([^\s]+)\s?(.+)?/);
+
     if (match !== null) {
       if (match[2]) {
 

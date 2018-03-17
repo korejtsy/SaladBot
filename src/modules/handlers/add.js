@@ -7,7 +7,8 @@ module.exports = async (ctx) => {
   const userId = ctx.update.message.from.id;
   const chatId = ctx.update.message.chat.id;
 
-  console.log(args);
+  // console.log(args);
+  ctx.reply('Adding...');
 
   if (args && args.length) {
     const url = args[0];
@@ -22,30 +23,32 @@ module.exports = async (ctx) => {
     }
 
     try {
-      ctx.session.product = await pageParse(url);
+      const product = await pageParse(url);
+      const orderItem = await addItem({ url, userId, chatId });
+
+
+      console.log(orderItem.id);
+
+      if (product.mods_available.length) {
+        const menu = Telegraf.Extra
+          .markdown()
+          .markup((m) => m.inlineKeyboard(
+            product.mods_available.map(item =>
+              m.callbackButton(item, `${orderItem.id}-${item}`)
+            )
+          ));
+
+        console.log('ctx.state.product', product);
+        ctx.reply('Please choose type:', menu);
+        return;
+      }
+
+      ctx.reply(`Product "${product.product_name}" has been added`);
+      return;
     } catch (e) {
       console.error(e);
       ctx.reply(e.message);
     }
-
-    if (ctx.session.product.mods_available.length) {
-      const menu = Telegraf.Extra
-        .markdown()
-        .markup((m) => m.inlineKeyboard(
-          ctx.session.product.mods_available.map(item =>
-            m.callbackButton(item, item)
-          )
-        ));
-
-      console.log('ctx.state.product', ctx.session.product);
-      ctx.reply('Please choose type:', menu);
-      return;
-    }
-
-    addItem({ url, userId, chatId })
-
-    ctx.reply(`Product "${ctx.session.product.product_name}" has been added`);
-    return;
   }
 
   ctx.reply('Link not provided');
