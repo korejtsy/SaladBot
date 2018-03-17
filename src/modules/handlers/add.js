@@ -1,9 +1,8 @@
 const Telegraf = require('telegraf');
 const pageParse = require('../pageParse');
+const addItem = require('../store/addItem');
 
 module.exports = async (ctx) => {
-  // console.log(ctx.update.message.entities);
-  console.log('args', ctx.state.command.args);
   const args = ctx.state.command.args;
 
   if (args && args.length) {
@@ -23,6 +22,8 @@ module.exports = async (ctx) => {
       ctx.reply('Please choose type:', menu);
       return;
     }
+
+    addItem({ url })
 
     ctx.reply(`Product "${ctx.session.product.product_name}" has been added`);
     return;
