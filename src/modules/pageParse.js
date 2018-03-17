@@ -6,13 +6,19 @@ const parsePage = async (url) => {
 
   await page.goto(url);
 
-  const price = parseInt(await page.evaluate(() =>
-    document.querySelector('.main_detail_price .price').innerHTML
-  ), 10);
+  const price = parseInt(await page.evaluate(() =>{
+    const node = document.querySelector('.main_detail_price .price');
+    if (node) {
+      return node.innerHTML;
+    }
+  }), 10);
 
-  const productName = await page.evaluate(() =>
-    document.querySelector('.bx_item_title h1').innerHTML
-  );
+  const productName = await page.evaluate(() => {
+    const node = document.querySelector('.bx_item_title h1');
+    if (node) {
+      return node.innerHTML;
+    }
+  });
 
   const modsAvailable = await page.evaluate(() => {
     const modsNodes = document.querySelectorAll('.bx_scu ul li:not(.bx_missing)');
@@ -32,11 +38,16 @@ const parsePage = async (url) => {
 
   await browser.close();
 
+  if (!price || !productName) {
+    throw new Error('Incorrect link');
+    return;
+  }
+
   return {
     url,
-    product_name: productName.replace(/[\n\t]+/g, ' ').trim().replace(/\s{2}/g, ''),
+    product_name: productName && productName.replace(/[\n\t]+/g, ' ').trim().replace(/\s{2}/g, ''),
     // price,
-    mods_available: modsAvailable,
+    mods_available: modsAvailable || [],
     mod,
   };
 };

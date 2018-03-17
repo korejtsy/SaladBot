@@ -2,6 +2,7 @@ const makeOrder = require('../makeOrder');
 const fs = require('fs');
 const forEach = require('lodash/forEach');
 const getOrder = require('../store/getOrder');
+const getRandomUser = require('../store/getRandomUser');
 const editOrder = require('../store/editOrder');
 
 module.exports = async (ctx) => {
@@ -9,7 +10,11 @@ module.exports = async (ctx) => {
   ctx.reply('Ordering...');
 
   const order = await getOrder(chatID);
+  const user = await getRandomUser();
 
+  console.log('user', user);
+
+  const result = await makeOrder(order, user);
   if (order) {
     await editOrder(order.id, { status: 'ordered' })
   }

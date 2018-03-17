@@ -5,19 +5,23 @@ const cartURL = 'https://salad.com.ua/personal/cart/';
 async function screenshotDOMElement(page, selector, path, padding = 0) {
   const rect = await page.evaluate(selector => {
     const element = document.querySelector(selector);
-    const { x, y, width, height } = element.getBoundingClientRect();
-    return { left: x, top: y, width, height, id: element.id };
+    if (element) {
+      const { x, y, width, height } = element.getBoundingClientRect();
+      return { left: x, top: y, width, height, id: element.id };
+    }
   }, selector);
 
-  return await page.screenshot({
-    path,
-    clip: {
-      x: rect.left - padding,
-      y: rect.top - padding,
-      width: rect.width + padding * 2,
-      height: rect.height + padding * 2
-    }
-  });
+  if (rect) {
+    return await page.screenshot({
+      path,
+      clip: {
+        x: rect.left - padding,
+        y: rect.top - padding,
+        width: rect.width + padding * 2,
+        height: rect.height + padding * 2
+      }
+    });
+  }
 }
 
 
@@ -60,35 +64,28 @@ const createCart = async (page) => {
 
 const fillForm = async (page, result, user, chat) => {
   await page.evaluate((result, user, chat) => {
-    document.querySelector('#ORDER_PROP_1').value = user.name;
-    document.querySelector('#ORDER_PROP_2').value = user.email;
-    document.querySelector('#ORDER_PROP_3').value = user.phone;
+    document.querySelector('#ORDER_PROP_1').value = user.name || '';
+    document.querySelector('#ORDER_PROP_2').value = user.email || '';
+    document.querySelector('#ORDER_PROP_3').value = user.phone || '';
 
-    document.querySelector('#ORDER_PROP_34').value = user.bonus_card_number;
-    document.querySelector('#ORDER_PROP_28').value = Object.keys(result).length;
+    document.querySelector('#ORDER_PROP_34').value = user.bonus_card_number || '';
+    document.querySelector('#ORDER_PROP_28').value = Object.keys(result).length || 1;
 
-    document.querySelector('#ORDER_PROP_29').value = chat.street;
-    document.querySelector('#ORDER_PROP_30').value = chat.house_number;
-    document.querySelector('#ORDER_PROP_41').value = chat.floor;
+    document.querySelector('#ORDER_PROP_29').value = chat.street || '';
+    document.querySelector('#ORDER_PROP_30').value = chat.house_number || '';
+    document.querySelector('#ORDER_PROP_41').value = chat.floor || '';
   }, result, user, chat);
 
   await page.screenshot({ path: `screenshots/form.png` });
 }
 
-module.exports = async (order) => {
+module.exports = async (order, user) => {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
 
   // console.log(order);
   const result = await addProductsToCart(page, order);
   // console.log('RESULT', result);
-
-  const user = {
-    name: 'Slon',
-    email: 'ssds@mail.com',
-    phone: '043334443',
-    bonus_card_number: '03327',
-  }
 
   const chat = order.chat;
 
