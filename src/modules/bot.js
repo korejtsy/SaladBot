@@ -64,6 +64,8 @@ You can control me by sending these commands:
       ctx.reply('Reset');
     });
 
+    bot.command('reset', handlers.reset);
+
     bot.command('order', handlers.order);
 
     bot.command('add_user', handlers.add_user);
