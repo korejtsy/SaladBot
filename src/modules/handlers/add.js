@@ -24,7 +24,7 @@ module.exports = async (ctx) => {
 
     try {
       const product = await pageParse(url);
-      const orderItem = await addItem({ url, userId, chatId });
+      const orderItem = await addItem({ product, userId, chatId });
 
 
       console.log(orderItem.id);
