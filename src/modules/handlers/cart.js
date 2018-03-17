@@ -7,11 +7,9 @@ module.exports = async (ctx) => {
   const user = ctx.update.message.from;
 
   const order = await getOrder(chatID);
-  console.log(order);
   const items = filter(order.items, item => item.user.telegram_account_id == user.id);
 
-  console.log(ctx.update.message.from);
-  let md = `[@${user.first_name} ${user.last_name}](tg://user?id=${user.id}) *items*
+  let md = `[@${user.first_name} ${user.last_name}](tg://user?id=${user.id}) ${items.length === 0 ? 'has no' : ''} *items*
   
 `;
 
@@ -20,7 +18,5 @@ module.exports = async (ctx) => {
   });
 
   ctx.replyWithMarkdown(md);
-
-  // ctx.reply('Cart for user');
 }
 
