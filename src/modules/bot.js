@@ -53,16 +53,9 @@ You can control me by sending these commands:
       ctx.reply('Start');
     });
 
-    bot.command('cart', ctx => {
-      console.log('cart');
-      ctx.reply('Cart');
-    });
+    bot.command('cart', handlers.cart);
 
     bot.command('/add', handlers.add);
-
-    bot.command('reset', ctx => {
-      ctx.reply('Reset');
-    });
 
     bot.command('reset', handlers.reset);
 
