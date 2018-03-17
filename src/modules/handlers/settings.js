@@ -31,12 +31,10 @@ module.exports = async (ctx) => {
   }
   const chat = await Chat.findOne({ where: { telegram_chat_id: chatID }});
   ctx.replyWithMarkdown(`
-    Settings
-    ===
-    - street: ${chat.street}
-    - house: ${chat.house_number}
-    - floor: ${chat.floor}
-    - budget: ${chat.budget}
+*street:* ${chat.street}
+*house:* ${chat.house_number}
+*floor:* ${chat.floor}
+*budget:* ${chat.budget}
   `);
 }
 

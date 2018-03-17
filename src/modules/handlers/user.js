@@ -35,12 +35,10 @@ module.exports = async (ctx) => {
   const user = await User.findOne({ where: { telegram_account_id: userID }});
   if (user) {
   ctx.replyWithMarkdown(`
-    Settings
-    ===
-    - name: ${user.name}
-    - email: ${user.email}
-    - phone: ${user.phone}
-    - bonus_card_number: ${user.bonus_card_number}
+*name:* ${user.name}
+*email:* ${user.email}
+*phone:* ${user.phone}
+*bonus card number:* ${user.bonus_card_number}
   `);
   } else {
     ctx.reply('No info about user');
