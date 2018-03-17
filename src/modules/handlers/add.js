@@ -7,9 +7,26 @@ module.exports = async (ctx) => {
   const userId = ctx.update.message.from.id;
   const chatId = ctx.update.message.chat.id;
 
+  console.log(args);
+
   if (args && args.length) {
     const url = args[0];
-    ctx.session.product = await pageParse(url);
+    if (url === 'https://salad.com.ua/' || url === 'https://salad.com.ua/contacts/') {
+      ctx.reply('Not valid link');
+      return;
+    }
+
+    if (!/salad.com.ua/.test(url)) {
+      ctx.reply('Not valid link');
+      return;
+    }
+
+    try {
+      ctx.session.product = await pageParse(url);
+    } catch (e) {
+      console.error(e);
+      ctx.reply(e.message);
+    }
 
     if (ctx.session.product.mods_available.length) {
       const menu = Telegraf.Extra
@@ -31,5 +48,5 @@ module.exports = async (ctx) => {
     return;
   }
 
-  ctx.reply(`Link not provided`);
+  ctx.reply('Link not provided');
 }

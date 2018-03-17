@@ -3,8 +3,6 @@ const fs = require('fs');
 const forEach = require('lodash/forEach');
 const getOrder = require('../store/getOrder');
 
-const amount = 250;
-
 module.exports = async (ctx) => {
   const chatID = ctx.update.message.chat.id;
   ctx.reply('Ordering...');
@@ -12,15 +10,15 @@ module.exports = async (ctx) => {
   const order = await getOrder(chatID);
 
   const result = await makeOrder(order);
-  const discount = amount / Object.keys(result).length;
+  const discount =
+    order.chat.budget ? (order.chat.budget / Object.keys(result).length).toFixed() : 0;
 
   let md = '';
 
   forEach(result, (price, name) => {
-    md += `*${name}*:\t${price} - ${discount} = ${price - discount}грн.\n`;
+    md += `*${name}*:\t${price} - ${discount} = ${price - discount} грн.\n`;
   });
 
   ctx.replyWithMarkdown(md);
   ctx.replyWithPhoto({ source: fs.createReadStream('./screenshots/cart.png')});
 };
-

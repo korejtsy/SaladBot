@@ -1,7 +1,7 @@
 const commandArgs = () => (ctx, next) => {
   //console.log(ctx.updateType, ctx.updateSubType);
   if (ctx.updateType === 'message') {
-    const text = ctx.message.text.toLowerCase();
+    const text = ctx.message.text || '';
     if (text.startsWith('/')) {
       const match = text.match(/^\/([^\s]+)\s?(.+)?/);
       let args = [];
