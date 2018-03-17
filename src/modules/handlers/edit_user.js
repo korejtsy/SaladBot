@@ -7,26 +7,25 @@ module.exports = async (ctx) => {
   const text = ctx.message.text;
   if (text.startsWith('/')) {
     const match = text.match(/^\/([^\s]+)\s?(.+)?/);
-    let args = [];
-    let command;
     if (match !== null) {
       if (match[2]) {
-        const matchProps = match[2].match(/^([^\s]+)\s?(.+)?/);
 
-        console.log(matchProps);
+        const pairs = match[2].split(',');
 
-        if (matchProps !== null) {
-          const prop = matchProps[1];
-          const value = matchProps[2];
+        let update = {};
+        pairs.forEach( pair => {
+          const [ prop, value ] = pair.split(':');
 
-          try {
-            await editUser(userID, { [prop]: value })
-          } catch(e) {
-            console.log(e)
-            ctx.reply('Error');
+          if (prop && value) {
+            update[prop.trim()] = value.trim();
           }
+        });
 
-          console.log(`Property: ${prop}, Value: ${value}`);
+        try {
+          await editUser(userID, update)
+        } catch(e) {
+          console.log(e)
+          ctx.reply('Error');
         }
       }
     }
