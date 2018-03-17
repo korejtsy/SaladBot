@@ -62,9 +62,7 @@ module.exports = {
 
     bot.command('edit_user', handlers.edit_user);
 
-    bot.command('settings', ctx => {
-      ctx.reply('Settings');
-    });
+    bot.command('settings', handlers.settings);
 
     bot.on('callback_query', (ctx) => {
       console.log(ctx.session.product.url);
