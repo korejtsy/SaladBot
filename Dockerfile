@@ -1,11 +1,6 @@
 FROM node:9
 
-WORKDIR /tmp
-COPY ./package.json /tmp/
-RUN npm config set registry http://registry.npmjs.org/
-RUN npm i
-WORKDIR /usr/src/app
-COPY ./ /usr/src/app/
-RUN cp -a /tmp/node_modules /usr/src/app/
-RUN ls -l && npm i
-
+RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -; \
+    echo 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' | tee /etc/apt/sources.list.d/google-chrome.list; \
+    apt-get update; \
+    apt-get install -y google-chrome-stable
