@@ -1,3 +1,5 @@
+const editSettings = require('../store/editSettings');
+
 module.exports = async (ctx) => {
   const chatID = ctx.update.message.chat.id;
   const text = ctx.message.text;
@@ -11,6 +13,7 @@ module.exports = async (ctx) => {
           const value = matchProps[2];
 
           try {
+            await editSettings(chatID, { [prop]: value })
           } catch(e) {
             console.log(e)
             ctx.reply('Error');
