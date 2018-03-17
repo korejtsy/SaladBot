@@ -34,7 +34,7 @@ module.exports = async (ctx) => {
           .markdown()
           .markup((m) => m.inlineKeyboard(
             product.mods_available.map(item =>
-              m.callbackButton(item, `${orderItem.id}-${item}`)
+              m.callbackButton(item, `${orderItem.id}-${item}-${orderItem.price}`)
             )
           ));
 
