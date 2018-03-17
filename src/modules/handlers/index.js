@@ -4,4 +4,6 @@ module.exports = {
   user: require('./user'),
   settings: require('./settings'),
   order: require('./order'),
+  updateMode: require('./updateMode')
 }
+

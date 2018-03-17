@@ -72,12 +72,7 @@ You can control me by sending these commands:
 
     bot.command('settings', handlers.settings);
 
-    bot.on('callback_query', (ctx) => {
-      console.log(ctx.session.product.url);
-      console.log(ctx.callbackQuery.data);
-      ctx.session.product.mod = ctx.callbackQuery.data;
-      ctx.reply(`Updated: ${JSON.stringify(ctx.session.product)}`);
-    });
+    bot.on('callback_query', handlers.updateMode);
 
     bot.startPolling();
   }
