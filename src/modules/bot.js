@@ -54,9 +54,7 @@ module.exports = {
       ctx.reply('Reset');
     });
 
-    bot.command('order', ctx => {
-      ctx.reply('Order');
-    });
+    bot.command('order', handlers.order);
 
     bot.command('add_user', handlers.add_user);
 
