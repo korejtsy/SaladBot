@@ -58,9 +58,7 @@ module.exports = {
       ctx.reply('Order');
     });
 
-    bot.command('add_user', ctx => {
-      ctx.reply('Add user');
-    });
+    bot.command('add_user', handlers.add_user);
 
     bot.command('edit_user', ctx => {
       ctx.reply('Edit user');
