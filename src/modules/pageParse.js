@@ -46,7 +46,7 @@ const parsePage = async (url) => {
   return {
     url,
     product_name: productName && productName.replace(/[\n\t]+/g, ' ').trim().replace(/\s{2}/g, ''),
-    // price,
+    price,
     mods_available: modsAvailable || [],
     mod,
   };

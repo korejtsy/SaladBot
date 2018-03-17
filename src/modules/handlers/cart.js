@@ -9,7 +9,7 @@ module.exports = async (ctx) => {
   const order = await getOrder(chatID);
   const items = filter(order.items, item => item.user.telegram_account_id == user.id);
 
-  let md = `[@${user.first_name} ${user.last_name}](tg://user?id=${user.id}) ${items.length === 0 ? 'has no' : ''} *items*
+  let md = `[@${user.first_name} ${user.last_name || ''}](tg://user?id=${user.id}) ${items.length === 0 ? 'has no' : ''} *items*
   
 `;
 

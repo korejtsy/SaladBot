@@ -24,7 +24,7 @@ module.exports = async (ctx) => {
         });
 
         try {
-          await editUser(userID, update)
+          await editUser(userTel.id, update);
         } catch(e) {
           console.log(e)
           ctx.reply('Error');
