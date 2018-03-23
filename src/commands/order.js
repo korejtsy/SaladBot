@@ -36,19 +36,18 @@ module.exports = async (ctx) => {
 
   let md = `👤 User: *${user.name}*
 
-=================================
+======================================================
 `;
 
   let i = 0;
   forEach(result, (price, name) => {
-    md += `💵 *${name}*: ${price} - ${discount} = *${price - discount} грн.* ${i !== Object.keys(result).length - 1 ? '\n' : ''}`;
+    md += `${i+1}) *${name}*: ${price} - ${discount} = *${price - discount} грн.* ${i !== Object.keys(result).length - 1 ? '\n' : ''}`;
     i++;
   });
 
   md += `
-=================================
-~ *Sum: ${reduce(result, (result, value) => result += value, 0)} грн* ~
-`;
+======================================================
+*Sum: ${reduce(result, (result, value) => result += value, 0)} грн*`;
 
   ctx.replyWithMarkdown(md);
   ctx.replyWithPhoto({ source: fs.createReadStream('./screenshots/cart.png') });
