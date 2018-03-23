@@ -13,4 +13,7 @@ module.exports = {
       charset: 'UTF-8',
     },
   },
+  log: {
+    queries: false,
+  },
 };

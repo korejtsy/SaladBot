@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const { database } = require('../../config/config');
+const { database, log } = require('../../config/config');
 
 const connector = new Sequelize(database.database, database.username, database.password, {
   host: database.host,
@@ -10,6 +10,7 @@ const connector = new Sequelize(database.database, database.username, database.p
     acquire: 30000,
     idle: 10000,
   },
+  logging: log.queries,
 });
 
 connector.query('SET NAMES utf8;');
