@@ -1,4 +1,4 @@
-const commandArgs = () => (ctx, next) => {
+const commandArgs = (ctx, next) => {
   //console.log(ctx.updateType, ctx.updateSubType);
   if (ctx.updateType === 'message') {
     const text = ctx.message.text || '';

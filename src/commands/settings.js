@@ -1,5 +1,5 @@
-const editSettings = require('../store/editSettings');
-const { Chat } = require('../../model');
+const editSettings = require('../modules/store/editSettings');
+const { Chat } = require('../model/index');
 
 module.exports = async (ctx) => {
   const chatID = ctx.update.message.chat.id;

@@ -1,6 +1,6 @@
 const Telegraf = require('telegraf');
-const pageParse = require('../pageParse');
-const addItem = require('../store/addItem');
+const pageParse = require('../modules/pageParse');
+const addItem = require('../modules/store/addItem');
 
 module.exports = async (ctx) => {
   const args = ctx.state.command.args;

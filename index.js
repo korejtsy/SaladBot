@@ -1,3 +1,3 @@
-const Bot = require('./src/modules/bot');
+const Bot = require('./src/bot');
 
 Bot.start();

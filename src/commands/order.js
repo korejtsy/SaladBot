@@ -1,10 +1,10 @@
-const makeOrder = require('../makeOrder');
+const makeOrder = require('../modules/makeOrder');
 const fs = require('fs');
 const forEach = require('lodash/forEach');
-const getOrder = require('../store/getOrder');
-const getRandomUser = require('../store/getRandomUser');
-const editOrder = require('../store/editOrder');
-const valitaion = require('../validations/order');
+const getOrder = require('../modules/store/getOrder');
+const getRandomUser = require('../modules/store/getRandomUser');
+const editOrder = require('../modules/store/editOrder');
+const valitaion = require('../modules/validations/order');
 
 module.exports = async (ctx) => {
   const chatID = ctx.update.message.chat.id;
