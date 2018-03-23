@@ -13,6 +13,6 @@ module.exports = connector =>
       }
     },
     phone: Sequelize.STRING,
-    bonus_card_number: Sequelize.INTEGER
+    bonus_card_number: Sequelize.STRING
   })
 

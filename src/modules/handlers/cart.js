@@ -11,12 +11,12 @@ module.exports = async (ctx) => {
   if (order) {
     const items = filter(order.items, item => item.user.telegram_account_id == user.id);
 
-    let md = `[@${user.first_name} ${user.last_name || ''}](tg://user?id=${user.id}) ${items.length === 0 ? 'has no' : ''} *items*
+    let md = `[@${user.first_name} ${user.last_name || ''}](tg://user?id=${user.id}) ${items.length === 0 ? 'has no' : `has *${items.length}*`} items
     
 `;
 
-    forEach(items, item => {
-      md += `${item.url} ${item.mod ? `(${item.mod})` : ''}`;
+    forEach(items, (item, i) => {
+      md += `${i + 1}) [${item.product_name}](${item.url}) ${item.mod ? `(${item.mod})` : ''} \n`;
     });
 
     ctx.replyWithMarkdown(md);

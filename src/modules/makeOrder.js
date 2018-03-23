@@ -49,7 +49,11 @@ const addProductsToCart = async (page, order) => {
     result[item.user.name] = (result[item.user.name] || 0) + price;
 
     // await page.click('.detail_buy_button.show_basket_popup.inline');
-    await page.click('.offers_hide:not([style="display: none;"]) .add_to_basket');
+    try {
+      await page.click('.offers_hide:not([style="display: none;"]) .detail_buy_button');
+    } catch (e) {
+      console.log(e);
+    }
 
     console.log('Screenshot', `user_${item.user.id}-${i}.png`);
     // await page.screenshot({ path: `screenshots/${orders[i].user}-${j}.png` });
@@ -98,7 +102,9 @@ const fillForm = async (page, result, user, chat) => {
 };
 
 const doOrder = async (page) => {
+  console.log('DO)ORDER');
   await page.click('.checkout.button');
+  await page.screenshot({ path: `screenshots/ordered.png` });
 };
 
 module.exports = async (order, user) => {
