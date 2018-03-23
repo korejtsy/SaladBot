@@ -47,7 +47,7 @@ module.exports = async (ctx) => {
 
   md += `
 ======================================================
-*Sum: ${reduce(result, (result, value) => result += value, 0)} грн*`;
+*Sum: ${reduce(result, (result, value) => (result += value), 0)} грн*`;
 
   ctx.replyWithMarkdown(md);
   ctx.replyWithPhoto({ source: fs.createReadStream('./screenshots/cart.png') });
