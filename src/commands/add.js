@@ -1,4 +1,4 @@
-const Telegraf = require('telegraf');
+const Extra = require('telegraf/extra');
 const pageParse = require('../browser-actions/pageParse');
 const addItem = require('../database/queries/addItem');
 
@@ -27,7 +27,7 @@ module.exports = async (ctx) => {
       const orderItem = await addItem({ product, userId, chatId });
 
       if (product.mods_available.length) {
-        const menu = Telegraf.Extra
+        const menu = Extra
           .markdown()
           .markup((m) => m.inlineKeyboard(
             product.mods_available.map(item =>
