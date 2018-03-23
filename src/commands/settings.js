@@ -1,5 +1,5 @@
-const editSettings = require('../modules/store/editSettings');
-const { Chat } = require('../model/index');
+const editSettings = require('../database/queries/editSettings');
+const { Chat } = require('../database');
 
 module.exports = async (ctx) => {
   const chatID = ctx.update.message.chat.id;
@@ -8,12 +8,11 @@ module.exports = async (ctx) => {
     const match = text.match(/^\/([^\s]+)\s?(.+)?/);
     if (match !== null) {
       if (match[2]) {
-
         const pairs = match[2].split(',');
 
-        let update = {};
-        pairs.forEach( pair => {
-          const [ prop, value ] = pair.split(':');
+        const update = {};
+        pairs.forEach((pair) => {
+          const [prop, value] = pair.split(':');
 
           if (prop && value) {
             update[prop.trim()] = value.trim();
@@ -22,19 +21,20 @@ module.exports = async (ctx) => {
 
         try {
           await editSettings(chatID, update);
-        } catch(e) {
-          console.log(e)
+        } catch (e) {
+          console.log(e);
           ctx.reply('Error');
         }
       }
     }
   }
-  const chat = await Chat.findOne({ where: { telegram_chat_id: chatID }});
+
+  const chat = await Chat.findOne({ where: { telegram_chat_id: chatID } });
+
   ctx.replyWithMarkdown(`
 *street:* ${chat.street}
 *house:* ${chat.house_number}
 *floor:* ${chat.floor}
 *budget:* ${chat.budget}
   `);
-}
-
+};

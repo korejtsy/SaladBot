@@ -1,5 +1,5 @@
 module.exports = (ctx, user, chat) => {
-  let result = true
+  let result = true;
 
   if (!user.name) {
     ctx.reply('Please fill user name');
@@ -11,18 +11,18 @@ module.exports = (ctx, user, chat) => {
 
   if (!user.email) {
     ctx.reply('We can\'t order without email');
-    result = false
+    result = false;
   }
 
   if (!user.phone) {
     ctx.reply('We can\'t order without phone');
-    result = false
+    result = false;
   }
 
   if (!chat.street) {
     ctx.reply('Settings "Street" is required');
-    result = false
+    result = false;
   }
 
-  return result
-}
+  return result;
+};

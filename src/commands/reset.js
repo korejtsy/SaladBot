@@ -1,4 +1,4 @@
-const clearOrderItems = require('../modules/store/clearOrderItems');
+const clearOrderItems = require('../database/queries/clearOrderItems');
 
 module.exports = async (ctx) => {
   const chatId = ctx.update.message.chat.id;

@@ -1,21 +1,18 @@
 const Telegraf = require('telegraf');
-const model = require('./model/index');
+const db = require('./database');
 const config = require('../config/config');
-
-const commandArgs = require('./middlewares/commandArgs');
-const log = require('./middlewares/log');
 
 module.exports = {
   start: () => {
-    model.sync({
+    db.sync({
       force: true,
       alter: true,
     });
 
     const bot = new Telegraf(config.bot.token, { username: config.bot.username });
 
-    bot.use(log);
-    bot.use(commandArgs);
+    bot.use(require('./middlewares/log'));
+    bot.use(require('./middlewares/args'));
 
     bot.start(require('./commands/start'));
 

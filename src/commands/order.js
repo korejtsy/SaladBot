@@ -1,10 +1,10 @@
-const makeOrder = require('../modules/makeOrder');
+const makeOrder = require('../browser-actions/makeOrder');
 const fs = require('fs');
 const forEach = require('lodash/forEach');
-const getOrder = require('../modules/store/getOrder');
-const getRandomUser = require('../modules/store/getRandomUser');
-const editOrder = require('../modules/store/editOrder');
-const valitaion = require('../modules/validations/order');
+const getOrder = require('../database/queries/getOrder');
+const getRandomUser = require('../lib/getRandomUser');
+const editOrder = require('../database/queries/editOrder');
+const isValidOrder = require('../validators/order');
 
 module.exports = async (ctx) => {
   const chatID = ctx.update.message.chat.id;
@@ -20,7 +20,7 @@ module.exports = async (ctx) => {
     return;
   }
 
-  if (!valitaion(ctx, user, order.chat)) {
+  if (!isValidOrder(ctx, user, order.chat)) {
     return;
   }
 

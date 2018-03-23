@@ -1,6 +1,4 @@
-const _ = require('lodash')
-const moment = require('moment')
-const { User } = require('../../model')
+const _ = require('lodash');
 
 module.exports = async (order) => {
   const users = _.map(_.get(order, 'items', []), 'user');
@@ -10,4 +8,4 @@ module.exports = async (order) => {
   // console.log(randomIndex);
 
   return users[randomIndex];
-}
+};

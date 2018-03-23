@@ -1,5 +1,6 @@
-const editItem = require('../modules/store/editItem');
+const editItem = require('../database/queries/editItem');
 
+// TODO: callback_queries types?
 module.exports = async (ctx) => {
   try {
     const [id, mod, userId] = ctx.callbackQuery.data.split('-');
@@ -15,5 +16,4 @@ module.exports = async (ctx) => {
     console.error(e);
     ctx.reply(e.message);
   }
-}
-
+};

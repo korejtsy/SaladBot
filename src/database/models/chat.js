@@ -1,5 +1,5 @@
-const Sequelize = require('sequelize')
-const defaultFields = require('./defaultFields')
+const Sequelize = require('sequelize');
+const defaultFields = require('./defaultFields');
 
 module.exports = connector =>
   connector.define('chat', {
@@ -8,6 +8,5 @@ module.exports = connector =>
     street: Sequelize.STRING,
     house_number: Sequelize.STRING,
     floor: Sequelize.STRING,
-    budget: Sequelize.FLOAT
-  })
-
+    budget: Sequelize.FLOAT,
+  });

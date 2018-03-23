@@ -1,5 +1,5 @@
-const editUser = require('../modules/store/editUser');
-const { User } = require('../model/index');
+const editUser = require('../database/queries/editUser');
+const { User } = require('../database');
 
 module.exports = async (ctx) => {
   const chatID = ctx.update.message.chat.id;

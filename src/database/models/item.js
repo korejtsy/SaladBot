@@ -1,5 +1,5 @@
-const Sequelize = require('sequelize')
-const defaultFields = require('./defaultFields')
+const Sequelize = require('sequelize');
+const defaultFields = require('./defaultFields');
 
 module.exports = connector =>
   connector.define('item', {
@@ -10,5 +10,4 @@ module.exports = connector =>
     price: Sequelize.FLOAT,
     mods_available: Sequelize.JSON,
     mod: Sequelize.STRING,
-  })
-
+  });

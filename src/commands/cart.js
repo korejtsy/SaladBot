@@ -1,6 +1,6 @@
 const filter = require('lodash/filter');
 const forEach = require('lodash/forEach');
-const getOrder = require('../modules/store/getOrder');
+const getOrder = require('../database/queries/getOrder');
 
 module.exports = async (ctx) => {
   const chatID = ctx.update.message.chat.id;
