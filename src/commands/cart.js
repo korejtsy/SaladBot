@@ -1,3 +1,4 @@
+const Extra = require('telegraf/extra');
 const filter = require('lodash/filter');
 const forEach = require('lodash/forEach');
 const getOrder = require('../database/queries/getOrder');
@@ -19,7 +20,7 @@ module.exports = async (ctx) => {
       md += `${i + 1}) [${item.product_name}](${item.url}) ${item.mod ? `(${item.mod})` : ''} \n`;
     });
 
-    ctx.replyWithMarkdown(md);
+    ctx.replyWithMarkdown(md, Extra.webPreview(false));
   } else {
     ctx.replyWithMarkdown(`No order in progress`);
   }
