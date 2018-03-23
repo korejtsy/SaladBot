@@ -1,4 +1,17 @@
-const HELP_MARKDOWN = `
+const HELP_MARKDOWN = `\`\`\`
+  ===================================================
+
+   ad88888ba             88                     88  
+  d8"     "8b            88                     88  
+  Y8,                    88                     88  
+  \`Y8aaaaa,   ,adPPYYba, 88 ,adPPYYba,  ,adPPYb,88  
+    \`"""""8b, ""     \`Y8 88 ""     \`Y8 a8"    \`Y88  
+          \`8b ,adPPPPP88 88 ,adPPPPP88 8b       88  
+  Y8a     a8P 88,    ,88 88 88,    ,88 "8a,   ,d88  
+   "Y88888P"  \`"8bbdP"Y8 88 \`"8bbdP"Y8  \`"8bbdP"Y8
+  ===================================================
+\`\`\`
+
   I can help you order food from salad.com.ua!
   
   You can control me by sending these commands:

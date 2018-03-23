@@ -40,7 +40,7 @@ module.exports = async (ctx) => {
         return;
       }
 
-      ctx.reply(`Product "${product.product_name}" has been added`);
+      ctx.reply(`👌 Product "${product.product_name}" has been added`);
       return;
     } catch (e) {
       console.error(e);
