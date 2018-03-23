@@ -1,31 +1,22 @@
-const _ = require('lodash')
-const Sequelize = require('sequelize')
-const {
-  db: {
-    username,
-    password,
-    database,
-    host,
-    dialect
-  }
-} = require('../config')
+const Sequelize = require('sequelize');
+const { database } = require('../../config/config');
 
-const connector = new Sequelize(database, username, password, {
-  host,
-  dialect,
+const connector = new Sequelize(database.database, database.username, database.password, {
+  host: database.host,
+  dialect: database.dialect,
   pool: {
     max: 5,
     min: 0,
     acquire: 30000,
-    idle: 10000
-  }
-})
-connector.query('SET NAMES utf8;')
+    idle: 10000,
+  },
+});
 
-const definedEntities = require('./entities')(connector)
+connector.query('SET NAMES utf8;');
+
+const definedEntities = require('./entities')(connector);
 
 module.exports = {
-  sync: app => connector.sync(),
-  ...definedEntities
-}
-
+  sync: () => connector.sync(),
+  ...definedEntities,
+};

@@ -1,30 +1,26 @@
 const Telegraf = require('telegraf');
-const model = require('../model')
-const config = require('../config');
-// const session = require('telegraf/session');
+const model = require('../model');
+const config = require('../../config/config');
+const handlers = require('./handlers');
+
 const commandArgsMiddleware = require('../middlewares/commandArgs');
 
 module.exports = {
   start: () => {
     model.sync({
       force: true,
-      alter: true
-    })
+      alter: true,
+    });
 
     const bot = new Telegraf(config.bot.token, { username: config.bot.username });
 
-    const handlers = require('./handlers');
-
     bot.use(commandArgsMiddleware());
-    // bot.use(session());
 
     bot.start((ctx) => {
       console.log('start');
       console.log('Started:', ctx.from.id);
       return ctx.reply('Welcome!');
     });
-
-    // bot.on('text', (ctx) => ctx.reply('Hello World 2'))
 
     bot.use(async (ctx, next) => {
       const start = new Date();
