@@ -27,6 +27,10 @@ module.exports = {
 
     bot.on('callback_query', require('./events/callback_query'));
 
+    bot.catch((err) => {
+      console.error(err);
+    });
+
     bot.startPolling();
   },
 };
