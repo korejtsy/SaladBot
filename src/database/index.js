@@ -15,9 +15,9 @@ const connector = new Sequelize(database.database, database.username, database.p
 
 connector.query('SET NAMES utf8;');
 
-const definedEntities = require('./models/index')(connector);
+const definedEntities = require('./models')(connector);
 
 module.exports = {
-  sync: () => connector.sync(),
+  sync: options => connector.sync(options),
   ...definedEntities,
 };

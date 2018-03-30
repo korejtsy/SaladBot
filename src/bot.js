@@ -4,10 +4,7 @@ const config = require('../config/config');
 
 module.exports = {
   start: () => {
-    db.sync({
-      force: true,
-      alter: true,
-    });
+    db.sync(config.database.sync);
 
     const bot = new Telegraf(config.bot.token, { username: config.bot.username });
 
@@ -21,6 +18,7 @@ module.exports = {
     bot.command('cart', require('./commands/cart'));
     bot.command('add', require('./commands/add'));
     bot.command('reset', require('./commands/reset'));
+    bot.command('remove', require('./commands/remove'));
     bot.command('order', require('./commands/order'));
     bot.command('user', require('./commands/user'));
     bot.command('settings', require('./commands/settings'));

@@ -10,4 +10,5 @@ module.exports = connector =>
     price: Sequelize.FLOAT,
     mods_available: Sequelize.JSON,
     mod: Sequelize.STRING,
+    count: Sequelize.INTEGER
   });
