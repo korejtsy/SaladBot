@@ -8,7 +8,6 @@ const editOrder = require('../database/queries/editOrder');
 const isValidOrder = require('../validators/order');
 
 const line = '======================================================'
-const count = item => (+item.count || 1)
 
 module.exports = async (ctx) => {
   const chatID = ctx.update.message.chat.id;
@@ -18,21 +17,21 @@ module.exports = async (ctx) => {
   const user = await getRandomUser(order);
 
   if (order) {
-    //await editOrder(order.id, { status: 'ordered' });
+    await editOrder(order.id, { status: 'ordered' });
   } else {
     ctx.reply('All orders are finished');
     return;
   }
 
-  //if (!isValidOrder(ctx, user, order.chat)) {
-  //  return;
-  //}
+  if (!isValidOrder(ctx, user, order.chat)) {
+    return;
+  }
 
-  //const result = await makeOrder(order, user);
-  //if (!result) {
-  //  ctx.reply('some errror');
-  //  return;
-  //}
+  const result = await makeOrder(order, user);
+  if (!result) {
+    ctx.reply('some errror');
+    return;
+  }
 
   const discount = order.chat.budget
     ? (order.chat.budget / Object.keys(result).length).toFixed()
